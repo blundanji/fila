@@ -1,0 +1,346 @@
+package com.mycompany.avanceproyecto;
+
+/**
+ *
+ * @author david
+ */
+public class Cola {
+    private NodoCola frente;
+    private NodoCola ultimo;
+
+    public NodoCola getFrente() {
+        return frente;
+    }
+
+    public void setFrente(NodoCola frente) {
+        this.frente = frente;
+    }
+
+    public NodoCola getUltimo() {
+        return ultimo;
+    }
+
+    public void setUltimo(NodoCola ultimo) {
+        this.ultimo = ultimo;
+    }
+    
+    public void hacerFila(NodoCola elemento)
+    {
+        if(frente == null) 
+        {
+            frente = elemento;
+            ultimo = elemento;
+        }
+        else
+        {
+            
+            ultimo.setAtras(elemento);
+            ultimo = elemento;
+            
+        }
+    }
+
+    public NodoCola atender()
+    {
+        NodoCola actual = frente;
+        if(frente != null)
+        {
+            frente = frente.getAtras();
+            actual.getCarta();
+        }
+        
+        return actual;
+    }    
+    
+  
+           
+    
+    public String imprimirCola() {
+    String respuesta = "";
+    NodoCola actual = frente;
+    
+    while (actual != null) {
+        String[] carta = actual.getCarta();
+        respuesta += carta[0] + " " + carta[1] + " " + carta[2] + "\n";
+        actual = actual.getAtras();
+    }
+    return respuesta;
+}
+
+    
+}
+
+
+public class NodoCola {
+    private String[] carta;
+    private NodoCola atras;
+
+    public NodoCola(String[] carta) {
+        this.carta = carta;
+    }
+
+    public String[] getCarta() {
+        return carta;
+    }
+
+    public void setCarta(String[] carta) {
+        this.carta = carta;
+    }
+
+    public NodoCola getAtras() {
+        return atras;
+    }
+
+    public void setAtras(NodoCola atras) {
+        this.atras = atras;
+    }
+
+    @Override
+    public String toString() {
+        return "NodoCola{" + "carta=" + carta + '}';
+    }
+
+  
+}
+
+public class NodoPila {
+
+    private NodoCola elemento;
+    private NodoPila siguiente;
+
+    public NodoPila() {
+        this.siguiente = null;
+    }
+
+    public NodoPila getSiguiente() {
+        return siguiente;
+    }
+
+    public void setSiguiente(NodoPila siguiente) {
+        this.siguiente = siguiente;
+    }
+
+    public NodoCola getElemento() {
+        return elemento;
+    }
+
+    public void setElemento(NodoCola elemento) {
+        this.elemento = elemento;
+    }
+}
+
+public class Pila {
+
+    private NodoPila cima;
+
+    public NodoPila getCima() {
+        return cima;
+    }
+
+    public void setCima(NodoPila cima) {
+        this.cima = cima;
+    }
+
+    public Pila() {
+        this.cima = null;
+    }
+
+    public boolean esVacia() {
+        if (cima == null) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public void apilar(String[] carta) {
+        NodoCola d = new NodoCola(carta);
+
+        d.setCarta(carta);
+
+        NodoPila nuevo = new NodoPila();
+
+        nuevo.setElemento(d);
+
+        if (esVacia()) {
+            cima = nuevo;
+        } else {
+            nuevo.setSiguiente(cima);
+            cima = nuevo;
+        }
+    }
+
+    public void desapilar() {
+        if (!esVacia()) {
+            cima = cima.getSiguiente();
+            JOptionPane.showMessageDialog(null, "El elemento fue extraído");
+        } else {
+            JOptionPane.showMessageDialog(null, "No se pueden extraer elementos de una pila vacía");
+        }
+    }
+    
+        public void desordenarPila() {
+        Random generator = new Random();
+        String[] carta = new String[52];
+
+        for (int i = 0; i < carta.length; i++) {
+            carta[i] = Integer.toString(i);
+        }
+
+        for (int i = 0; i < carta.length; i++) {
+            int randomPosition = generator.nextInt(carta.length);
+            String temp = carta[i];
+            carta[i] = carta[randomPosition];
+            carta[randomPosition] = temp;
+        }
+    }
+    
+    
+
+    public String imprimirPila() {
+        String respuesta = "";
+        NodoPila aux = cima;
+
+        while (aux != null) {
+            String[] carta = aux.getElemento().getCarta();
+            respuesta += "[";
+            for (int i = 0; i < carta.length; i++) {
+                respuesta += carta[i];
+                if (i != carta.length - 1) {
+                    respuesta += ", ";
+                }
+            }
+            respuesta += "]\n";
+            aux = aux.getSiguiente();
+        }
+
+        return respuesta;
+    }
+
+}
+
+public class Main {
+
+    /**
+     * @param args the command line arguments
+     */
+    public static void main(String[] args) {
+
+        //Ordenamiento
+        
+        Cola cola1 = new Cola();
+        cola1.hacerFila(new NodoCola(new String[]{"0", "Corazones", "As"}));
+        cola1.hacerFila(new NodoCola(new String[]{"1", "Corazones", "2"}));
+        cola1.hacerFila(new NodoCola(new String[]{"2", "Corazones", "3"}));
+        cola1.hacerFila(new NodoCola(new String[]{"3", "Corazones", "4"}));
+        cola1.hacerFila(new NodoCola(new String[]{"4", "Corazones", "5"}));
+        cola1.hacerFila(new NodoCola(new String[]{"5", "Corazones", "6"}));
+        cola1.hacerFila(new NodoCola(new String[]{"6", "Corazones", "7"}));
+        cola1.hacerFila(new NodoCola(new String[]{"7", "Corazones", "8"}));
+        cola1.hacerFila(new NodoCola(new String[]{"8", "Corazones", "9"}));
+        cola1.hacerFila(new NodoCola(new String[]{"9", "Corazones", "10"}));
+        cola1.hacerFila(new NodoCola(new String[]{"10", "Corazones", "Jota"}));
+        cola1.hacerFila(new NodoCola(new String[]{"11", "Corazones", "Reina"}));
+        cola1.hacerFila(new NodoCola(new String[]{"12", "Corazones", "Rey\n"}));
+
+        cola1.hacerFila(new NodoCola(new String[]{"13", "Espadas", "As"}));
+        cola1.hacerFila(new NodoCola(new String[]{"14", "Espadas", "2"}));
+        cola1.hacerFila(new NodoCola(new String[]{"15", "Espadas", "3"}));
+        cola1.hacerFila(new NodoCola(new String[]{"16", "Espadas", "4"}));
+        cola1.hacerFila(new NodoCola(new String[]{"17", "Espadas", "5"}));
+        cola1.hacerFila(new NodoCola(new String[]{"18", "Espadas", "6"}));
+        cola1.hacerFila(new NodoCola(new String[]{"19", "Espadas", "7"}));
+        cola1.hacerFila(new NodoCola(new String[]{"20", "Espadas", "8"}));
+        cola1.hacerFila(new NodoCola(new String[]{"21", "Espadas", "9"}));
+        cola1.hacerFila(new NodoCola(new String[]{"22", "Espadas", "10"}));
+        cola1.hacerFila(new NodoCola(new String[]{"23", "Espadas", "Jota"}));
+        cola1.hacerFila(new NodoCola(new String[]{"24", "Espadas", "Reina"}));
+        cola1.hacerFila(new NodoCola(new String[]{"25", "Espadas", "Rey\n"}));
+
+        cola1.hacerFila(new NodoCola(new String[]{"26", "Diamantes", "1"}));
+        cola1.hacerFila(new NodoCola(new String[]{"27", "Diamantes", "2"}));
+        cola1.hacerFila(new NodoCola(new String[]{"28", "Diamantes", "3"}));
+        cola1.hacerFila(new NodoCola(new String[]{"29", "Diamantes", "4"}));
+        cola1.hacerFila(new NodoCola(new String[]{"30", "Diamantes", "5"}));
+        cola1.hacerFila(new NodoCola(new String[]{"31", "Diamantes", "6"}));
+        cola1.hacerFila(new NodoCola(new String[]{"32", "Diamantes", "7"}));
+        cola1.hacerFila(new NodoCola(new String[]{"33", "Diamantes", "8"}));
+        cola1.hacerFila(new NodoCola(new String[]{"34", "Diamantes", "9"}));
+        cola1.hacerFila(new NodoCola(new String[]{"35", "Diamantes", "10"}));
+        cola1.hacerFila(new NodoCola(new String[]{"36", "Diamantes", "Jota"}));
+        cola1.hacerFila(new NodoCola(new String[]{"37", "Diamantes", "Reina"}));
+        cola1.hacerFila(new NodoCola(new String[]{"38", "Diamantes", "Rey\n"}));
+
+        cola1.hacerFila(new NodoCola(new String[]{"39", "Trébol", "1"}));
+        cola1.hacerFila(new NodoCola(new String[]{"40", "Trébol", "2"}));
+        cola1.hacerFila(new NodoCola(new String[]{"41", "Trébol", "3"}));
+        cola1.hacerFila(new NodoCola(new String[]{"42", "Trébol", "4"}));
+        cola1.hacerFila(new NodoCola(new String[]{"43", "Trébol", "5"}));
+        cola1.hacerFila(new NodoCola(new String[]{"44", "Trébol", "6"}));
+        cola1.hacerFila(new NodoCola(new String[]{"45", "Trébol", "7"}));
+        cola1.hacerFila(new NodoCola(new String[]{"46", "Trébol", "8"}));
+        cola1.hacerFila(new NodoCola(new String[]{"47", "Trébol", "9"}));
+        cola1.hacerFila(new NodoCola(new String[]{"48", "Trébol", "10"}));
+        cola1.hacerFila(new NodoCola(new String[]{"49", "Trébol", "Jota"}));
+        cola1.hacerFila(new NodoCola(new String[]{"50", "Trébol", "Reina"}));
+        cola1.hacerFila(new NodoCola(new String[]{"51", "Trébol", "Rey"}));
+        String a = cola1.imprimirCola();
+
+        System.out.println("Mostrando Cola de cartas: ");
+        System.out.println(a);
+
+        //Reparticion
+        
+        Pila p1 = new Pila();
+        Pila p2 = new Pila();
+        Pila p3 = new Pila();
+        Pila p4 = new Pila();
+        Pila p5 = new Pila();
+
+        for (int i = 0; i < 7; i++) {
+
+            p1.apilar(cola1.atender().getCarta());
+            p2.apilar(cola1.atender().getCarta());
+            p3.apilar(cola1.atender().getCarta());
+            p4.apilar(cola1.atender().getCarta());
+            p5.apilar(cola1.atender().getCarta());
+
+        }
+        System.out.println("Imprimiendo Baraja de Jugadores");
+        
+        System.out.println("\nJugador 1");
+        System.out.println(p1.imprimirPila());
+        System.out.println("\nJugador 2");
+        System.out.println(p2.imprimirPila());
+        System.out.println("\nJugador 3");
+        System.out.println(p3.imprimirPila());
+        System.out.println("\nJugador 4");
+        System.out.println(p4.imprimirPila());
+        System.out.println("\nJugador 5");
+        System.out.println(p5.imprimirPila());
+        
+        
+        p1.desordenarPila();
+        p2.desordenarPila();
+        p3.desordenarPila();
+        p4.desordenarPila();
+        p5.desordenarPila();
+
+        System.out.println("Imprimiendo Baraja de Jugadores desordenada");
+
+        System.out.println("\nJugador 1");
+        System.out.println(p1.imprimirPila());
+        System.out.println("\nJugador 2");
+        System.out.println(p2.imprimirPila());
+        System.out.println("\nJugador 3");
+        System.out.println(p3.imprimirPila());
+        System.out.println("\nJugador 4");
+        System.out.println(p4.imprimirPila());
+        System.out.println("\nJugador 5");
+        System.out.println(p5.imprimirPila());
+    }
+
+    
+
+}
+
